@@ -30,12 +30,15 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 		$_SESSION['id']= $fila['id_usuario'];
 		$_SESSION['tipo']= $fila['id_tipo_usuario'];
 
-		//Validar si es técnico o solicitante 1 es técnico, 2 solicitante
+		//Validar si es técnico o solicitante 1 es técnico, 2 solicitante, 3 admin
 		if($fila['id_tipo_usuario'] == 1) {
 			header("location:consultar-categoria.php");
 
 		} else  if ($fila['id_tipo_usuario'] == 2){
 			header("location:solicitud.php");
+
+		} else  if ($fila['id_tipo_usuario'] == 3){
+			header("location:admin-usuarios.php");
 		}
 
 	} else { 
