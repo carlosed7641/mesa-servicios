@@ -34,7 +34,7 @@ if ($_SESSION['tipo'] != 2) {
 <?php include('includes/header.php'); ?>  
 
 <!-- Mensaje de Bienvenida -->
-<h2 class="mt-3 ml-3">Bienvenido <?php echo $usuario; ?>, has iniciado sesión.</h2>
+<h2 class="mt-3 ml-3">Bienvenido <?php echo utf8_decode($usuario); ?>, has iniciado sesión.</h2>
 
 
 <div style="margin: 5rem 0;">

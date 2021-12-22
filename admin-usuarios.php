@@ -1,4 +1,5 @@
 <?php 
+require 'includes/conexion.php';
 session_start();
 $usuario=$_SESSION['username']; //Variable para guardar el nombre del usuario
 
@@ -56,5 +57,32 @@ if ($_SESSION['tipo'] != 3) {
 	</div>    
 
 </div>
+
+<?php 
+
+if (!empty($_POST)) {
+
+	//Valida que se hayan enviado datos a través de POST
+	$nombre_completo = $_POST['nombre_completo'];
+	$direccion = $_POST['direccion'];
+	$telefono = $_POST['telefono'];
+	$usuario = $_POST['usuario'];
+	$password = $_POST['password'];
+	$id_tipo_usuario = $_POST['tipo_usuario'];
+
+
+	//Imprime un mensaje en la pantalla
+	echo "<center><h2>Usuario agregado correctamente</h2></center>";
+
+	//Insertar a la base de datos
+	$sql="INSERT INTO usuarios (nombre_completo, direccion, telefono, usuario, password, id_tipo_usuario)
+	VALUES ('".$nombre_completo."', '".$direccion."', '".$telefono."', '".$usuario."', 
+	'".$password."', '".$id_tipo_usuario."')";
+	$resultado = $pdo->prepare($sql);
+	$resultado->execute();
+
+}
+
+?>
 
 <?php include('includes/footer.php'); ?>  

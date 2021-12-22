@@ -13,7 +13,7 @@
 
         <!--Si hay sesión iniciada imprime el nombre de usuario en el navbar-->
         <?php if(isset($_SESSION)) { ?>
-         <p class="nav-link" style="color: white; font-weight: bold;"><?php echo "Usuario: ".$_SESSION['username']; ?></p>
+         <p class="nav-link" style="color: white; font-weight: bold;"><?php echo "Usuario: ".utf8_decode($_SESSION['username']); ?></p>
         <?php } ?>
 
        <li class="nav-item">
