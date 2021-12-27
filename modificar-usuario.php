@@ -36,16 +36,18 @@ if ($_SESSION['tipo'] != 3) {
 <body>
 
 <?php include('includes/header.php'); ?>
+<a href="admin-usuarios.php" class="btn btn-primary mt-3 ml-3">Volver</a>
 
 <div class="container mb-5" style="margin-top: 5rem; max-width: 50rem;">
 	<h4>Escriba el ID o el nombre del usuario: </h2>
 	<br>
 	<form method="POST" class="form-buscar mb-2"> 
-		<input type="text" class="form-control mr-2" required="listar" name="buscar">
+		<input type="text" class="form-control mr-2" required="" name="buscar">
 		<button class="btn btn-success">Buscar</button>
 	</form>	
-	<form>
-		<input type="submit" name="listar" value="Listar Todos" class="btn btn-danger">	
+	<form method="POST">
+		<input type="hidden" name="listar">
+		<button class="btn btn-danger">Listar Todos</button>
 	</form>
 </div>
 
@@ -54,29 +56,138 @@ if ($_SESSION['tipo'] != 3) {
 
 if(!empty($_POST)) {
 
-	$buscar = $_POST['buscar'];
+	if(isset($_POST['buscar'])) {
 
-	$sql = "SELECT * FROM usuarios WHERE nombre_completo LIKE '%$buscar%' OR id_usuario = '$buscar' ";
-	$resultado = $pdo->prepare($sql);
-	$resultado->execute();
-	$row=$resultado->fetch(PDO::FETCH_ASSOC);
+		$buscar = $_POST['buscar'];
 
-	if (!$row) {
+		//Consulta para obtener la cantidad de usuarios con esa información
+		$sql = "SELECT count(*) as contar FROM usuarios WHERE nombre_completo LIKE '%$buscar%' OR id_usuario = '$buscar' ";
+		$resultado = $pdo->prepare($sql);
+		$resultado->execute();
+		$fila = $resultado->fetch(PDO::FETCH_ASSOC);
 
-		echo "<center><h2 class='mb-3'>No se encuentra un usuario con la información solicitada</h2></center>";
-		include('includes/footer.php'); 
-		die();
-	} else {
-		
-	}
 
-}
+		if($fila['contar'] < 1) { //Si no hay resultados imprime un mensaje
+
+	        echo "<center><h1 id='resultados'>No hay usuarios con esa información</h1></center><br>";
+	        include('includes/footer.php');  
+	        die();
+
+		} else {
+
+		echo "<center><h2 id='resultados'>Hay ".$fila['contar']." usuarios con esta información</h2></center><br>";
+		$sql = "SELECT * FROM usuarios WHERE nombre_completo LIKE '%$buscar%' OR id_usuario = '$buscar' ";
+		$resultado = $pdo->prepare($sql);
+		$resultado->execute();
+
+		}
+
+    } else if(isset($_POST['listar'])) {
+
+    	//Consulta para obtener la cantidad de usuarios
+		$sql = "SELECT count(*) as contar FROM usuarios";
+		$resultado = $pdo->prepare($sql);
+		$resultado->execute();
+		$fila = $resultado->fetch(PDO::FETCH_ASSOC);
+
+		if($fila['contar'] < 1) { //Si no hay resultados imprime un mensaje
+
+	        echo "<center><h1 id='resultados'>No hay usuarios registrados</h1></center><br>";
+	        include('includes/footer.php');  
+	        die();
+
+    	} else {
+
+    		echo "<center><h2 id='resultados'>Hay ".$fila['contar']." usuarios registrados </h2></center><br>";
+    		$sql = "SELECT * FROM usuarios";
+			$resultado = $pdo->prepare($sql);
+			$resultado->execute();
+    	}
+
+    } else if(isset($_POST['eliminar'])) {
+
+    	$id = $_POST['eliminar'];
+    	$sql = "DELETE FROM usuarios WHERE id_usuario = '$id'";
+    	$resultado = $pdo->prepare($sql);
+    	$resultado->execute();
+
+    	echo "<center><h2 id='resultados'>Usuario correctamente eliminado</h2></center><br>";
+
+    }
+
+	
 
 ?>
+		
+	<table class="table table-hover table-sm table-dark">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Nombre</th>
+				<th>Dirección</th>
+				<th>Telefono</th>
+				<th>Usuario</th>
+				<th>Contraseña</th>
+				<th>Tipo de Usuario</th>
+      			<th>Acción</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php while ($row=$resultado->fetch(PDO::FETCH_ASSOC)) : 
+
+				$id_tipo_usuario = $row['id_tipo_usuario'];
+
+				//Consulta para mostrar el tipo de usuario
+			    $sql="SELECT * FROM tipo_usuario WHERE id_tipo_usuario='$id_tipo_usuario'";
+			    $resultado_srv=$pdo->prepare($sql);
+			    $resultado_srv->execute();
+			    $srv=$resultado_srv->fetch(PDO::FETCH_ASSOC);
+
+
+			?>
+			<tr>
+				<td><?php echo $row['id_usuario']; ?></td>
+				<td><?php echo $row['nombre_completo']; ?></td>
+				<td><?php echo $row['direccion']; ?></td>
+				<td><?php echo $row['telefono']; ?></td>
+				<td><?php echo $row['usuario']; ?></td>
+				<td><?php echo $row['password']; ?></td>
+				<td><?php echo $srv['tipo']; ?></td>
+			<!--Asigna el id usando GET para cuando se pique el botón lleve a la info de ese usuario y editarlo-->
+			 	<td style="display: flex;">
+				 	<a href="modificar.php?usr=<?php echo $row['id_usuario']; ?>" class="btn btn-success mr-2">Editar</a>
+				 	<form method="POST">
+					 	<input type="hidden" name="eliminar" value="<?php echo $row['id_usuario']; ?>">
+					 	<button class="btn btn-danger" onclick="return confirmarEliminar();">Eliminar</button>
+				 	</form>
+			 	</td>
+			</tr>
+			<?php endwhile; ?>
+		</tbody>
+	</table>
+
+
+<script type="text/javascript">
+	
+	function confirmarEliminar () {
+
+		var respuesta = confirm("¿Estas seguro que deseas eliminar este usuario?");
+
+		if (respuesta) {
+
+			return true;
+			
+		} else {
+
+			return false;
+		}
+
+	}
+
+</script>
 
 
 
-
-<?php include('includes/footer.php'); ?> 
+<?php } include('includes/footer.php'); ?> 
 
 
