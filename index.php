@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-    <title>Proyecto Desarrollo Web I</title>
+    <title>Mesa de Servicios</title>
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
@@ -27,7 +27,7 @@
         session_destroy();
     } 
 
-    include('includes/header.php'); 
+    include('includes/navbar.php'); 
 ?>
 
     <!-- ***** Search Area ***** -->

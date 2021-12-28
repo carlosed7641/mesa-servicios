@@ -23,24 +23,24 @@
     
 
     <!-- jQuery -->
-    <script src="assets/js/jquery-2.1.0.min.js"></script>
+    <script src="/mesa-servicios/assets/js/jquery-2.1.0.min.js"></script>
 
     <!-- Bootstrap -->
-    <script src="assets/js/popper.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="/mesa-servicios/assets/js/popper.js"></script>
+    <script src="/mesa-servicios/assets/js/bootstrap.min.js"></script>
 
     <!-- Plugins -->
-    <script src="assets/js/owl-carousel.js"></script>
-    <script src="assets/js/scrollreveal.min.js"></script>
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/imgfix.min.js"></script> 
-    <script src="assets/js/slick.js"></script> 
-    <script src="assets/js/lightbox.js"></script> 
-    <script src="assets/js/isotope.js"></script> 
+    <script src="/mesa-servicios/assets/js/owl-carousel.js"></script>
+    <script src="/mesa-servicios/assets/js/scrollreveal.min.js"></script>
+    <script src="/mesa-servicios/assets/js/waypoints.min.js"></script>
+    <script src="/mesa-servicios/assets/js/jquery.counterup.min.js"></script>
+    <script src="/mesa-servicios/assets/js/imgfix.min.js"></script> 
+    <script src="/mesa-servicios/assets/js/slick.js"></script> 
+    <script src="/mesa-servicios/assets/js/lightbox.js"></script> 
+    <script src="/mesa-servicios/assets/js/isotope.js"></script> 
     
     <!-- Global Init -->
-    <script src="assets/js/custom.js"></script>
+    <script src="/mesa-servicios/assets/js/custom.js"></script>
 
     <script>
 

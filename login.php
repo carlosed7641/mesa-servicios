@@ -38,7 +38,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 			header("location:solicitud.php");
 
 		} else  if ($fila['id_tipo_usuario'] == 3){
-			header("location:admin-usuarios.php");
+			header("location:admin/index.php");
 		}
 
 	} else { 
@@ -99,7 +99,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 			<div class="card-header text-center" style="text-transform: uppercase;">Inicio de Sesion</div>
 			<div class="row">
 				<div class="col-lg-6 col-md-6 text-center">
-					<img src="img/login.png" style="max-width: 15rem; margin-top: 15px;">
+					<img src="assets/images/login.png" style="max-width: 15rem; margin-top: 15px;">
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<form class="form-group" method="POST" style="margin: 2rem 15px">

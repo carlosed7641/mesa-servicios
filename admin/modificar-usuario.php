@@ -1,12 +1,12 @@
 <?php
 
-require 'includes/conexion.php';
+require '../includes/conexion.php';
 session_start();
 
 if ($_SESSION['tipo'] != 3) { 
 /** Si se intenta acceder a este sitio y no es admin,
         o no está logueado, se redirigirá al index **/
-	header('location:index.php');
+	header('location:../index.php');
 }
 
 ?>
@@ -17,26 +17,21 @@ if ($_SESSION['tipo'] != 3) {
 	<meta charset="utf-8">
 	<title>Modificar/Eliminar</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/estilos.css">
 	<link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-	 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-
-    <link rel="stylesheet" href="assets/css/styles.css">
-
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-
-    <link rel="stylesheet" href="assets/css/templatemo-breezed.css">
-
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
-
-    <link rel="stylesheet" href="assets/css/lightbox.css">
+	<link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
+    <link rel="stylesheet" href="../assets/css/templatemo-breezed.css">
+    <link rel="stylesheet" href="../assets/css/owl-carousel.css">
+    <link rel="stylesheet" href="../assets/css/lightbox.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body>
 
-<?php include('includes/header.php'); ?>
-<a href="admin-usuarios.php" class="btn btn-primary mt-3 ml-3">Volver</a>
+<?php include('../includes/navbar.php'); ?>
+<a href="index.php" class="btn btn-primary mt-3 ml-3">Volver</a>
 
 <div class="container mb-5" style="margin-top: 5rem; max-width: 50rem;">
 	<h4>Escriba el ID o el nombre del usuario: </h2>
@@ -70,7 +65,7 @@ if(!empty($_POST)) {
 		if($fila['contar'] < 1) { //Si no hay resultados imprime un mensaje
 
 	        echo "<center><h1 id='resultados'>No hay usuarios con esa información</h1></center><br>";
-	        include('includes/footer.php');  
+	        include('../includes/footer.php');  
 	        die();
 
 		} else {
@@ -93,7 +88,7 @@ if(!empty($_POST)) {
 		if($fila['contar'] < 1) { //Si no hay resultados imprime un mensaje
 
 	        echo "<center><h1 id='resultados'>No hay usuarios registrados</h1></center><br>";
-	        include('includes/footer.php');  
+	        include('../includes/footer.php');  
 	        die();
 
     	} else {
@@ -207,6 +202,6 @@ if(!empty($_POST)) {
 
 
 
-<?php } include('includes/footer.php'); ?> 
+<?php } include('../includes/footer.php'); ?> 
 
 
