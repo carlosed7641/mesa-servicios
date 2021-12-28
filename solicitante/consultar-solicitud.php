@@ -1,10 +1,10 @@
 <?php
-require 'includes/conexion.php';
+require '../includes/conexion.php';
 session_start();
 if ($_SESSION['tipo'] != 2) {
     /** Si se intenta acceder a este sitio y no es usuario un solicitante,
         o no está logueado, se redirigirá al index **/
-    header('location:index.php');
+    header('location:../index.php');
 }
 
 //Se guarda el id del usuario en una variable
@@ -19,38 +19,37 @@ $id = $_SESSION['id'];
     <meta charset="utf-8">
     <title>Consultar Solicitud</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/estilos.css">
-    <link rel="stylesheet"
+  <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-breezed.css">
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
-    <link rel="stylesheet" href="assets/css/lightbox.css">
-    <link rel="stylesheet" href="css/estilos.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
+    <link rel="stylesheet" href="../assets/css/templatemo-breezed.css">
+    <link rel="stylesheet" href="../assets/css/owl-carousel.css">
+    <link rel="stylesheet" href="../assets/css/lightbox.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body>
 
-<?php include('includes/header.php'); ?>  
+<?php include('../includes/navbar.php'); ?>  
 
 
 <div style="margin: 3rem 0;">
-    <a href="solicitud.php" class="btn btn-primary ml-3">Volver</a>
+    <a href="index.php" class="btn btn-primary ml-3">Volver</a>
     
     <center><h1 style="color: darkblue; margin-top: 1rem">¿Qué tipo de consulta desea hacer?</h1></center>
 
     <div class="row" style="margin: 3rem 0;">
         <form class="col-lg-6 col-md-6 text-center mb-4" method="POST" action="consultar-solicitud.php#resultados">
-                <img class="img-fluid" src="img/consulta_general.png" style="width: 30%;">
+                <img class="img-fluid" src="../assets/images/consulta_general.png" style="width: 30%;">
                 <input type="hidden" name="consulta_general">
                 <h1>Consulta general</h1><br>
                 <button class="btn btn-primary">Click Aquí</button>
         </form>
         <br><br><br><br><br><br><br>
         <form class="col-lg-6 col-md-6 text-center" method="POST" action="consultar-solicitud.php#resultados">
-                <img class="img-fluid" src="img/consulta_codigo.png" style="width: 30%;">
+                <img class="img-fluid" src="../assets/images/consulta_codigo.png" style="width: 30%;">
                 <h1>Consultar por código</h1><br>    
                 <input type="number" name="codigo" placeholder="Digite su código" class="form-control" min="1" required=""><br>
                 <button class="btn btn-danger">Click Aquí</button>
@@ -76,7 +75,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
         if($fila['contar'] < 1) { //Si no hay requerimientos imprime un mensaje
 
         echo "<center><h1 id='resultados'>Usted no tiene solicitudes realizadas</h1></center><br>";
-        include('includes/footer.php');  
+        include('../includes/footer.php');  
         die();
 
         } else { //Si hay requerimientos nos dice la cantidad que hay
@@ -103,7 +102,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
         if($fila['contar'] < 1) { //Si no hay requerimientos con ese código imprime un mensaje
 
         echo "<center><h1 id='resultados'>Código ingresado no valido</h1></center><br>";
-        include('includes/footer.php');  
+        include('../includes/footer.php');  
         die();
 
         } else { //Si hay un requerimiento hace la consulta para obtenerlo
@@ -189,4 +188,4 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 
 <?php } //Cierre del primer If ?>
 
-<?php include('includes/footer.php'); ?>  
+<?php include('../includes/footer.php'); ?>  

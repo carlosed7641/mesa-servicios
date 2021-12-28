@@ -2,13 +2,13 @@
 
 //Definir el formato de tiempo para la hora
 date_default_timezone_set('America/Bogota');
-require 'includes/conexion.php';
+require '../includes/conexion.php';
 
 session_start();
 if ($_SESSION['tipo'] != 2 || empty($_POST)) {
     /** Si se intenta acceder a este sitio y no es usuario un solicitante,
         ,no está logueado, o no hay datos enviados se redirigirá al index **/
-    header('location:index.php');
+    header('location:../index.php');
 }
 
 if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
@@ -59,26 +59,26 @@ $srv=$resultado->fetch(PDO::FETCH_ASSOC);
     <meta charset="utf-8">
     <title>Solicitud</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/estilos.css">
     <link rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.css">
-    <link rel="stylesheet" href="assets/css/templatemo-breezed.css">
-    <link rel="stylesheet" href="assets/css/owl-carousel.css">
-    <link rel="stylesheet" href="assets/css/lightbox.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/font-awesome.css">
+    <link rel="stylesheet" href="../assets/css/templatemo-breezed.css">
+    <link rel="stylesheet" href="../assets/css/owl-carousel.css">
+    <link rel="stylesheet" href="../assets/css/lightbox.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body>
 
-<?php include('includes/header.php'); ?>  
+<?php include('../includes/navbar.php'); ?>  
 
 
 
 <div style="margin: 3rem auto;">
 
- <a href="solicitud.php" class="btn btn-primary ml-3">Volver</a>
+ <a href="index.php" class="btn btn-primary ml-3">Volver</a>
  <center><h1>Resumen de su solicitud</h1>
         
     <ul class='mt-3 ml-3 mr-3 resumen' style='border: 1px solid gray; padding: 25px;'>
@@ -94,4 +94,4 @@ $srv=$resultado->fetch(PDO::FETCH_ASSOC);
 </div></center>
 
 
- <?php include('includes/footer.php'); ?>  
+ <?php include('../includes/footer.php'); ?>  

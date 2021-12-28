@@ -35,7 +35,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 			header("location:consultar-categoria.php");
 
 		} else  if ($fila['id_tipo_usuario'] == 2){
-			header("location:solicitud.php");
+			header("location:solicitante/index.php");
 
 		} else  if ($fila['id_tipo_usuario'] == 3){
 			header("location:admin/index.php");

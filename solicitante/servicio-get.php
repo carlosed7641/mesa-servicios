@@ -1,5 +1,5 @@
 <?php
-	include("includes/conexion.php");
+	include("../includes/conexion.php");
 	$id_categoria=intval($_REQUEST['id_categoria']); //Variable para guardar el id_categoria
 
 	//Consulta para obtener el servicio de la categoria seleccionada
