@@ -17,7 +17,13 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
     $resultado->execute();
     $row = $resultado->fetch(PDO::FETCH_ASSOC);
 
-    $id_tipo_usuario = $row['id_tipo_usuario'];
+    $id = $row['id_tipo_usuario'];
+
+    //Consulta para obtener los tipos a los que puede cambiar
+    $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario != '$id'";
+    $resultado1 = $pdo->prepare($sql);
+    $resultado1->execute();
+
 
 
     /**Si se escribe en la url un id que no existe,
@@ -57,15 +63,28 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
 <div class="container" style="margin-top: 0 auto; max-width: 50rem;">
       <div class="card border-success mb-3 mt-3 formulario" style="max-width: 50rem;">
          <div class="card-header text-center" style="text-transform: uppercase;"><h4>Modificar Usuario</h4></div>
-         <form class="row" method="POST" action="admin-usuarios.php" style="margin: 0 5px;">
+         <form class="row" method="POST" action="modificar-usuario.php" style="margin: 0 5px;">
             <div class="col-lg-4 col-md-4 text-center" style="margin-top: 20px;">
                <img src="img/registro.png" style="max-width: 14rem;">
             </div>
             <div class="col-lg-4 col-md-4">
                   <br>
                   <!--Lista para los tipos de usuario-->
-                  <select class="form-control" name="tipo_usuario" required="">
-                     <option value="<?php echo $row['id_tipo_usuario'];?>"><?php echo $row['id_tipo_usuario'];?></option>
+                  <select class="form-control" name="id_tipo_usuario" required="">
+                     <?php 
+                        $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario = '$id'";
+                        $resultado2 = $pdo->prepare($sql);
+                        $resultado2->execute();
+                        $fila = $resultado2->fetch(PDO::FETCH_ASSOC);
+                      ?>
+                     <option value="<?php echo $fila['id_tipo_usuario']; ?>"><?php echo $fila['tipo'];?></option>
+                     <?php
+                     //Recorre todas los tipos y los imprime en una lista desplegable
+                     while ($fila=$resultado1->FETCH(PDO::FETCH_ASSOC)) :?>
+                  
+                     <option value="<?php echo $fila['id_tipo_usuario']; ?>"> <?php echo $fila['tipo'];?></option>
+                     
+                     <?php endwhile; ?>
                   </select><br>        
 
                   <input name="nombre_completo" type="text" placeholder="Nombre completo" class="form-control" required="" value="<?php echo $row['nombre_completo'];?>"> <br>
@@ -78,8 +97,9 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
                   <input name="password" type="text" placeholder="Contraseña" class="form-control" required="" value="<?php echo $row['password'];?>"> <br>
 
                   <center class="mb-3">               
+                     <input type="hidden" name="actualizar" value="<?php echo $row['id_usuario']; ?>">
                      <button class="btn btn-primary">Guardar</button>
-                     <a href="modificar.php?usr=<?php echo $row['id_usuario']; ?>" class="btn btn-danger">Cancelar</a>
+                     <a href="modificar.php?usr=<?php echo $usr; ?>" class="btn btn-danger">Cancelar</a>
                   </center>                  
             </div>
          </form>

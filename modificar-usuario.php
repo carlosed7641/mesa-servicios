@@ -113,6 +113,25 @@ if(!empty($_POST)) {
 
     	echo "<center><h2 id='resultados'>Usuario correctamente eliminado</h2></center><br>";
 
+    } else if(isset($_POST['actualizar'])) {
+
+		$id = $_POST['actualizar'];
+    	$nombre_completo = $_POST['nombre_completo'];
+    	$direccion = $_POST['direccion'];
+    	$telefono = $_POST['telefono'];
+    	$usuario = $_POST['usuario'];
+    	$password = $_POST['password'];
+    	$id_tipo_usuario = $_POST['id_tipo_usuario'];
+
+    	$sql = "UPDATE usuarios SET nombre_completo = '$nombre_completo', direccion = '$direccion', 
+    	telefono = '$telefono', usuario = '$usuario', password = '$password', 
+    	id_tipo_usuario = '$id_tipo_usuario' WHERE id_usuario = '$id' ";
+
+    	$resultado = $pdo->prepare($sql);
+		$resultado->execute();
+
+		echo "<center><h2 id='resultados'>Usuario correctamente actualizado</h2></center><br>";
+
     }
 
 	
