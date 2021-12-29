@@ -30,13 +30,16 @@ if ($_SESSION['tipo'] != 2) {
 </head>
 <body>
 
-<?php include('../includes/navbar.php'); ?>  
+<?php 
 
-<!-- Mensaje de Bienvenida -->
-<h2 class="mt-3 ml-3">Bienvenido <?php echo utf8_decode($usuario); ?>, has iniciado sesión.</h2>
+include('../includes/navbar.php'); 
+include('../includes/saludo.php'); 
+
+?>  
 
 
-<div style="margin: 5rem 0;">
+
+<div style="margin: 2rem 0;">
 	<center><h1 style="color: darkblue;">¿Qué deseas hacer?</h1></center>
 
 	<div class="row" style="margin: 2rem 0;">

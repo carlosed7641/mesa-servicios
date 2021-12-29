@@ -1,6 +1,5 @@
 <?php
 
-date_default_timezone_set('America/Bogota');
 require '../includes/conexion.php';
 session_start();
 
@@ -45,9 +44,7 @@ $resultado->execute();
 <?php 
 
 include('../includes/navbar.php'); 
-
-//Imprime mensaje de bienvenida con el nombre del usuario
-echo "<h2 class='mt-3 ml-3'>Bienvenido $usuario, has iniciado sesión.</h2>";
+include('../includes/saludo.php'); 
 
 ?>
 
@@ -71,7 +68,6 @@ echo "<h2 class='mt-3 ml-3'>Bienvenido $usuario, has iniciado sesión.</h2>";
 		 <button class="btn btn-danger">Consultar</button>	
 	</form>	
 </div><br><br>
-
 
 
 <?php 
