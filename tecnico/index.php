@@ -74,6 +74,13 @@ echo "<h2 class='mt-3 ml-3'>Bienvenido $usuario, has iniciado sesión.</h2>";
 
 
 
+<?php 
+
+//Valida que se hayan enviado datos a través de POST
+if (!empty($_POST)) : 
+
+?>
+
 <table class="table table-hover table-sm table-dark">
 	<!-- Encabezado de la tabla-->
   <thead>
@@ -87,11 +94,7 @@ echo "<h2 class='mt-3 ml-3'>Bienvenido $usuario, has iniciado sesión.</h2>";
     </tr>
   </thead>
 
-<?php 
-
-//Valida que se hayan enviado datos a través de POST
-if (!empty($_POST)) : 
-
+<?php
 //Valida si un requerimiento fue enviado como atendido
 if (isset($_POST['atendido'])) {
 
