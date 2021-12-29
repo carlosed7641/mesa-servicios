@@ -32,7 +32,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 
 		//Validar si es técnico o solicitante 1 es técnico, 2 solicitante, 3 admin
 		if($fila['id_tipo_usuario'] == 1) {
-			header("location:consultar-categoria.php");
+			header("location:tecnico/index.php");
 
 		} else  if ($fila['id_tipo_usuario'] == 2){
 			header("location:solicitante/index.php");
@@ -114,9 +114,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 					</form>
 				</div>
 			</div>
-			<div class="alerta error">
-       		<?php echo $error; //Imprime el mensaje de error ?>
-    	</div>
+       			<?php echo "<center><p>$error</h4></p>"; //Imprime el mensaje de error ?>
 		</div>
 </div>
 
