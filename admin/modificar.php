@@ -10,21 +10,19 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
     $usr = $_GET['usr'];
 
 
-
+    $error = "";
     //Consulta para obtener la información del usuario
     $sql="SELECT * FROM usuarios WHERE id_usuario = '$usr'";
     $resultado=$pdo->prepare($sql);
     $resultado->execute();
     $row = $resultado->fetch(PDO::FETCH_ASSOC);
 
-    $id = $row['id_tipo_usuario'];
+    $id_tipo_usuario_p = $row['id_tipo_usuario'];
 
     //Consulta para obtener los tipos a los que puede cambiar
-    $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario != '$id'";
+    $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario != '$id_tipo_usuario_p'";
     $resultado1 = $pdo->prepare($sql);
     $resultado1->execute();
-
-
 
     /**Si se escribe en la url un id que no existe,
     redigirirá al index para evitar errores**/
@@ -32,6 +30,43 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
         header('location:../index.php');
     }
 
+    if (!empty($_POST)) {
+
+      $same_user = $row['usuario'];
+
+
+      $id = $_POST['actualizar'];
+      $nombre_completo = $_POST['nombre_completo'];
+      $direccion = $_POST['direccion'];
+      $telefono = $_POST['telefono'];
+      $usuario = $_POST['usuario'];
+      $password = $_POST['password'];
+      $id_tipo_usuario = $_POST['id_tipo_usuario'];
+
+
+      $sql = "SELECT count(*) as contar FROM usuarios WHERE usuario = '$usuario' ";
+      $resultado_u = $pdo->prepare($sql);
+      $resultado_u->execute();
+      $fila = $resultado_u->fetch(PDO::FETCH_ASSOC);
+
+      if ($fila['contar'] >= 1 && $same_user != $usuario) {
+   
+      $error = "Ya existe alguien con ese nombre de usuario";
+
+      } else {
+
+      $sql = "UPDATE usuarios SET nombre_completo = '$nombre_completo', direccion = '$direccion', 
+      telefono = '$telefono', usuario = '$usuario', password = '$password', 
+      id_tipo_usuario = '$id_tipo_usuario' WHERE id_usuario = '$id' ";
+
+      $resultado_a = $pdo->prepare($sql);
+      $resultado_a->execute();
+
+      header('location:modificar-usuario.php?success=1');
+
+      }
+
+    }
 
 ?>
 
@@ -62,7 +97,7 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
 <div class="container" style="margin-top: 0 auto; max-width: 50rem;">
       <div class="card border-success mb-3 mt-3 formulario" style="max-width: 50rem;">
          <div class="card-header text-center" style="text-transform: uppercase;"><h4>Modificar Usuario</h4></div>
-         <form class="row" method="POST" action="modificar-usuario.php" style="margin: 0 5px;">
+         <form class="row" method="POST" style="margin: 0 5px;">
             <div class="col-lg-4 col-md-4 text-center" style="margin-top: 20px;">
                <img src="../assets/images/editar.png" style="max-width: 12rem;">
             </div>
@@ -71,10 +106,10 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
                   <!--Lista para los tipos de usuario-->
                   <select class="form-control" name="id_tipo_usuario" required="">
                      <?php 
-                        $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario = '$id'";
-                        $resultado2 = $pdo->prepare($sql);
-                        $resultado2->execute();
-                        $fila = $resultado2->fetch(PDO::FETCH_ASSOC);
+                        $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario = '$id_tipo_usuario_p'";
+                        $resultado_b = $pdo->prepare($sql);
+                        $resultado_b->execute();
+                        $fila = $resultado_b->fetch(PDO::FETCH_ASSOC);
                       ?>
                      <option value="<?php echo $fila['id_tipo_usuario']; ?>"><?php echo $fila['tipo'];?></option>
                      <?php
@@ -102,7 +137,7 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
                   </center>                  
             </div>
          </form>
-
+      <?php echo "<center><p style = 'color: red;'>$error</h4></p></center>"; ?>
       </div><br>
 </div><br>
 

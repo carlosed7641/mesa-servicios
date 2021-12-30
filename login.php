@@ -13,37 +13,55 @@ $error = ""; //Variable para guardar el mensaje de error
 
 if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 
-	$user=$_POST['usuario']; //Guarda el usuario en una variable
+	$usuario=$_POST['usuario']; //Guarda el usuario en una variable
 	$pass=$_POST['password']; //Guarda la contraseña en una variable
 
-	//Consulta para validar los datos
-	$query="SELECT * FROM usuarios where usuario='$user' and password='$pass'";
+	//Consulta para validar que el usuario exista
+	$query="SELECT count(*) as contar FROM usuarios where usuario='$usuario'";
 	$resultado=$pdo->prepare($query);
 	$resultado->execute();
-	$fila=$resultado->fetch(PDO::FETCH_ASSOC);
+	$fila_usuario = $resultado->fetch(PDO::FETCH_ASSOC);
 
-	//Si la consulta arroja resultados, significa que existe el usuario
-	if ($fila) {
 
-		//Variables globales de sesión para id, nombre y el tipo de usuario
-		$_SESSION['username']= utf8_encode($fila['nombre_completo']);
-		$_SESSION['id']= $fila['id_usuario'];
-		$_SESSION['tipo']= $fila['id_tipo_usuario'];
+	if ($fila_usuario['contar'] < 1) {
 
-		//Validar si es técnico o solicitante 1 es técnico, 2 solicitante, 3 admin
-		if($fila['id_tipo_usuario'] == 1) {
-			header("location:tecnico/index.php");
+ 		//Si la consulta no arroja resultados se guarda el mensaje de error
+		$error = "El usuario que ingresaste no está conectado a una cuenta";
+		$usuario= "";
 
-		} else  if ($fila['id_tipo_usuario'] == 2){
-			header("location:solicitante/index.php");
+	} else {
 
-		} else  if ($fila['id_tipo_usuario'] == 3){
-			header("location:admin/index.php");
+		//Consulta para validar los datos
+		$query="SELECT * FROM usuarios where usuario='$usuario' and password='$pass'";
+		$resultado=$pdo->prepare($query);
+		$resultado->execute();
+		$fila=$resultado->fetch(PDO::FETCH_ASSOC);
+
+		//Si la consulta arroja resultados, significa que usuario y pass son correctas
+		if ($fila) {
+
+			//Variables globales de sesión para id, nombre y el tipo de usuario
+			$_SESSION['username']= utf8_encode($fila['nombre_completo']);
+			$_SESSION['id']= $fila['id_usuario'];
+			$_SESSION['tipo']= $fila['id_tipo_usuario'];
+
+			//Validar si es técnico o solicitante 1 es técnico, 2 solicitante, 3 admin
+			if($fila['id_tipo_usuario'] == 1) {
+				header("location:tecnico/index.php");
+
+			} else  if ($fila['id_tipo_usuario'] == 2){
+				header("location:solicitante/index.php");
+
+			} else  if ($fila['id_tipo_usuario'] == 3){
+				header("location:admin/index.php");
+			}
+
+		} else { 
+			 //Si la consulta no arroja resultados se guarda el mensaje de error
+			 $error = "Contraseña incorrecta";
 		}
 
-	} else { 
-		 //Si la consulta no arroja resultados se guarda el mensaje de error
-		 $error = "Usuario o contraseña incorrectos";
+
 	}
 	
 }	
@@ -104,7 +122,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 				<div class="col-lg-6 col-md-6">
 					<form class="form-group" method="POST" style="margin: 2rem 15px">
 						<input type="text" name="usuario" placeholder="Digite su usuario" class="form-control"
-							required=""><br>
+							required="" value="<?php echo (!empty($usuario)) ? $usuario : ""; ?>"><br>
 						<input type="password" name="password" placeholder="Digite su contraseña" class="form-control"
 							required=""><br>				
 						<div class="text-center">
@@ -114,7 +132,7 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 					</form>
 				</div>
 			</div>
-       			<?php echo "<center><p>$error</h4></p>"; //Imprime el mensaje de error ?>
+       			<?php echo "<center><p style = 'color: red;'>$error</h4></p>"; //Imprime el mensaje de error ?>
 		</div>
 </div>
 

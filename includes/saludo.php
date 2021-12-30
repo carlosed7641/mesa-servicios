@@ -8,7 +8,7 @@ $dia = strtotime('05:00:00');
 $tarde = strtotime('12:00:00');
 $noche = strtotime('19:00:00');
 
-$user = explode(" ", $usuario);
+$user = explode(" ", utf8_decode($usuario));
 
 //Imprime mensaje de acuerdo a la horas
 if ($hora >= $dia && $hora < $tarde) {
