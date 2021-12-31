@@ -16,8 +16,8 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 
 //Variables para guardar los datos que se enviaron a través del formulario
 $estado = "Reportado"; //Estado inicial
-$descripcion = utf8_decode($_POST['descripcion']);
-$ubicacion = utf8_decode($_POST['ubicacion']);
+$descripcion = $_POST['descripcion'];
+$ubicacion = $_POST['ubicacion'];
 $fecha_creacion = date('d-m-Y h:i:s a', time()); //Toma la fecha actual del sistema
 $id_usuario_solicitante = $_SESSION['id']; 
 $id_categoria = $_POST['categoria'];
@@ -84,11 +84,11 @@ $srv=$resultado->fetch(PDO::FETCH_ASSOC);
     <ul class='mt-3 ml-3 mr-3 resumen' style='border: 1px solid gray; padding: 25px;'>
         <b><li>Código:  </li></b><p><?php echo $fila['codigo']; ?></p>
         <b><li>Categoría: </li></b><p><?php echo $cat['categoria']; ?></p>
-        <b><li>Tipo: </li></b><p><?php  echo utf8_encode($srv['servicio']); ?></p>
-        <b><li>Ubicación: </li></b><p><?php echo utf8_encode($fila['ubicacion']); ?></p>
-        <b><li>Descrpción: </li></b><p><?php echo utf8_encode($fila['descripcion']); ?></p>   
+        <b><li>Tipo: </li></b><p><?php  echo $srv['servicio']; ?></p>
+        <b><li>Ubicación: </li></b><p><?php echo $fila['ubicacion']; ?></p>
+        <b><li>Descrpción: </li></b><p><?php echo $fila['descripcion']; ?></p>   
         <b><li>Fecha de creación: </li></b><p><?php echo $fila['fecha_creacion']; ?></p>
-        <b><li>Estado: </li></b><p><?php echo utf8_encode($fila['estado']); ?></p>
+        <b><li>Estado: </li></b><p><?php echo $fila['estado']; ?></p>
     </ul>
 
 </div></center>

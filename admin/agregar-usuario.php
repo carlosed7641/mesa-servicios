@@ -92,7 +92,8 @@ if (!empty($_POST)) {
 							//Recorre todas los tipos y los imprime en una lista desplegable
 							while ($row=$resultado->FETCH(PDO::FETCH_ASSOC)) :?>
 						
-							<option value="<?php echo $row['id_tipo_usuario']; ?>"> <?php echo $row['tipo'];?></option>
+							<option value="<?php echo $row['id_tipo_usuario']; ?>">
+								<?php echo $row['tipo'];?></option>
 							
 							<?php endwhile; ?>
 						</select><br>			

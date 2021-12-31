@@ -10,6 +10,6 @@
 			
 		//Recorre los servicios de la categoría y los muestra en la lista secundaria
 		while($row = $servicios->FETCH(PDO::FETCH_ASSOC)){
-			echo '<option value = "'.$row['id_tipo_servicio'].'">'.utf8_encode($row['servicio']).'</option>';
+			echo '<option value = "'.$row['id_tipo_servicio'].'">'.$row['servicio'].'</option>';
 		}
 ?>

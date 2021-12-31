@@ -80,7 +80,16 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
 
         } else { //Si hay requerimientos nos dice la cantidad que hay
 
-        echo "<center><h3 style='color: darkblue;'>Usted ha realizado ".$fila['contar']." solicitudes</h3><br></center>";
+          $usuarios = "";
+
+          if ($fila['contar'] == 1) {
+            $solicitudes = "solicitud";
+          } else {
+            $solicitudes = "solicitudes";
+          }
+
+      echo "<center><h3 style='color: darkblue;'>Usted ha realizado "
+      .$fila['contar']." ".$solicitudes."</h3><br></center>";
 
         //Consulta para obtener los requerimientos que tiene el usuario
         $sql="SELECT * FROM requerimientos WHERE id_usuario_solicitante='$id'";
@@ -168,16 +177,16 @@ if (!empty($_POST)) { //Valida que se hayan enviado datos a través de POST
         <tr>
            <td><?php echo $fila['codigo'];?></td>
            <td><?php echo $cat['categoria'];?></td>
-           <td><?php echo utf8_encode($srv['servicio']);?></td>
-           <td><?php echo utf8_encode($fila['ubicacion']);?></td>
-           <td><?php echo utf8_encode($fila['descripcion']);?></td>
+           <td><?php echo $srv['servicio'];?></td>
+           <td><?php echo $fila['ubicacion'];?></td>
+           <td><?php echo $fila['descripcion'];?></td>
            <td><?php echo $fila['fecha_creacion'];?></td>
            <td><?php echo $fila['fecha_atencion'];?></td>
            <td><?php echo $fila['fecha_fin'];?></td>
            <!--Se hace la validación para que no arroje un error si aun no se ha atendido -->
-           <td><?php if($usr){echo utf8_encode($usr['nombre_completo']);}else{} ?></td>
-           <td><?php echo utf8_encode($fila['detalle']);?></td>
-           <td><?php echo utf8_encode($fila['estado']);?></td>
+           <td><?php if($usr){echo $usr['nombre_completo'];}else{} ?></td>
+           <td><?php echo $fila['detalle'];?></td>
+           <td><?php echo $fila['estado'];?></td>
         </tr>
 
 <?php endwhile; ?> 
