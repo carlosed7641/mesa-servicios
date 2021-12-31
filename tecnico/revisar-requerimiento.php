@@ -78,11 +78,11 @@ $usr=$resultado->fetch(PDO::FETCH_ASSOC);
     <form method="POST" action="index.php">       
         <ul class='mt-3 ml-3 mr-3 resumen' style='border: 1px solid gray; padding: 25px;'>
             <b><li>Código: </li></b><p><?php echo $row['codigo']; ?></p>
-            <b><li>Usuario solicitante: </li></b><p><?php echo utf8_encode($usr['nombre_completo']); ?></p>
+            <b><li>Usuario solicitante: </li></b><p><?php echo $usr['nombre_completo']; ?></p>
             <b><li>Categoría: </li></b><p><?php echo $cat['categoria']; ?></p>
-            <b><li>Tipo: </li></b><p><?php echo utf8_encode($srv['servicio']); ?></p>
-            <b><li>Ubicación: </li></b><p><?php echo utf8_encode($row['ubicacion']); ?></p>
-            <b><li>Descrpción: </li></b><p><?php echo utf8_encode($row['descripcion']); ?></p>
+            <b><li>Tipo: </li></b><p><?php echo $srv['servicio']; ?></p>
+            <b><li>Ubicación: </li></b><p><?php echo $row['ubicacion']; ?></p>
+            <b><li>Descrpción: </li></b><p><?php echo $row['descripcion']; ?></p>
             <b><li>Fecha de creación: </li></b><p><?php echo $row['fecha_creacion']; ?></p>
             <b><li>Fecha de atención: </li></b><p><?php echo $row['fecha_atencion']; ?></p>
             <b><li>Fecha de finalización: </li></b><p><?php echo $row['fecha_fin']; ?></p>
@@ -112,12 +112,22 @@ $usr=$resultado->fetch(PDO::FETCH_ASSOC);
             if($estado == "En proceso") { ?>
 
             <label><b>Detalle:</b></label>
-            <center><textarea class="form-control" name="detalle" required="" minlength="30" style="height: 100px; width: 350px;"></textarea></center><br>
+            <center><textarea class="form-control" name="detalle" required minlength="30" style="height: 100px; width: 350px;"></textarea></center><br>
 
-            <input type="submit"class="btn btn-success" value="Finalizar" name="finalizado">    
-            <input type="submit"class="btn btn-danger" value="Cancelar" name="cancelado">    
+            <input type="submit"class="btn btn-success" value="Finalizar" name="finalizado"id="finalizado">    
+            <input type="submit"class="btn btn-danger" value="Cancelar" name="cancelado" onclick="noRequired();">    
 
            <?php } ?>
+
+           <script type="text/javascript">
+               
+               function noRequired () {
+
+                    document.querySelector("textarea").removeAttribute("required");
+               }
+               
+
+           </script>
 
         <!--Si está cancelado o ya está finalizado solo saldrá la opción de regresar -->
         <a href="index.php" class="btn btn-primary">Volver</a>

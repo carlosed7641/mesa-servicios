@@ -52,7 +52,7 @@ include('../includes/saludo.php');
 	<h4>Consulta el requerimiento por su categoria: </h2>
 
 	<form method="POST"> 
-			<select class="form-control" required="" name="categoria">
+			<select class="form-control mt-2" required="" name="categoria">
 				<option value="">--Seleccione una categoría--</option>
 
 									<?php
@@ -73,24 +73,8 @@ include('../includes/saludo.php');
 <?php 
 
 //Valida que se hayan enviado datos a través de POST
-if (!empty($_POST)) : 
+if (!empty($_POST)) {
 
-?>
-
-<table class="table table-hover table-sm table-dark">
-	<!-- Encabezado de la tabla-->
-  <thead>
-    <tr>
-      <th scope="col">Código</th>   	
-      <th scope="col">Usuario</th>
-      <th scope="col">Servicio</th>
-      <th scope="col">Fecha</th>
-      <th scope="col">Estado</th>
-      <th scope="col">Acción</th>
-    </tr>
-  </thead>
-
-<?php
 //Valida si un requerimiento fue enviado como atendido
 if (isset($_POST['atendido'])) {
 
@@ -116,14 +100,11 @@ echo "<center><h2>El requerimiento fue cancelado correctamente</h2></center>";
 
 //Variable para la condición del SQL
 $codigo = $_POST['code'];
-//Variables para la fecha de atención, finalización, el nuevo estado y el detalle
-$fecha_atencion = date('d-m-Y h:i:s a', time());
-$fecha_fin = date('d-m-Y h:i:s a', time());
 $estado = "Cancelado";
 $detalle = "Requerimiento cancelado";
 
 //SQL para actualizar el requerimiento de reportado o en proceso, a cancelado
-$sql="UPDATE requerimientos SET estado = '$estado', detalle = '$detalle' ,fecha_atencion = '$fecha_atencion',  fecha_fin = '$fecha_fin', id_usuario_soporte = '$id_usuario' WHERE codigo = '$codigo'";
+$sql="UPDATE requerimientos SET estado = '$estado', detalle = '$detalle' ,fecha_atencion = '$estado',  fecha_fin = '$estado', id_usuario_soporte = '$id_usuario' WHERE codigo = '$codigo'";
 $resultado=$pdo->prepare($sql);
 $resultado->execute();
 
@@ -148,7 +129,7 @@ $resultado->execute();
 }
 
 //Valida que se haya seleccionado una categoría
-if (isset($_POST['categoria'])) :
+if (isset($_POST['categoria'])) {
 
 //Variable para guardar la categoría que se seleccionó
 $id_categoria = $_POST ['categoria'];
@@ -158,7 +139,35 @@ $sql="SELECT * FROM requerimientos WHERE id_categoria = '$id_categoria'";
 $resultado=$pdo->prepare($sql);
 $resultado->execute();
 
+
+//Consulta para saber si hay requerimientos asociados a esa categoría
+$sql="SELECT count(*) as contar FROM requerimientos WHERE id_categoria = '$id_categoria'";
+$conteo=$pdo->prepare($sql);
+$conteo->execute();
+$fila = $conteo->fetch(PDO::FETCH_ASSOC);
+
+
+if ($fila['contar'] < 1) {
+
+echo "<center><h2 class='m-3'>No hay requerimientos con esa categoría</h2></center>";
+
+} else {
+
 ?>
+
+<div id="tabla">
+<table class="table table-hover table-sm table-dark">
+	<!-- Encabezado de la tabla-->
+<thead>
+    <tr>
+      <th scope="col">Código</th>   	
+      <th scope="col">Usuario</th>
+      <th scope="col">Servicio</th>
+      <th scope="col">Fecha de Reporte</th>
+      <th scope="col">Estado</th>
+      <th scope="col">Acción</th>
+    </tr>
+</thead>
 
 <tbody><!--Abre el cuerpo de la tabla -->
 
@@ -187,10 +196,10 @@ $usr=$resultado_usr->fetch(PDO::FETCH_ASSOC);
 
 	 <tr><!-- Imprime la inf de los requerimientos en la tabla-->
 		 	<td><?php echo $row['codigo']; ?></td>
-		 	<td><?php echo utf8_encode($usr['nombre_completo']); ?></td>
-		 	<td><?php echo utf8_encode($srv['servicio']); ?></td>
+		 	<td><?php echo $usr['nombre_completo']; ?></td>
+		 	<td><?php echo $srv['servicio']; ?></td>
 		 	<td><?php echo $row['fecha_creacion']; ?></td>
-		 	<td><?php echo utf8_encode($row['estado']); ?></td>
+		 	<td><?php echo $row['estado']; ?></td>
 		 	<!--Asigna el codigo usando GET para cuando se pique el botón lleve a la inf de ese requerimiento -->
 		 	<td><a href="revisar-requerimiento.php?req=<?php echo $row['codigo']; ?>" class="btn btn-success">Ver</a></td>
 	 </tr> 
@@ -199,11 +208,16 @@ $usr=$resultado_usr->fetch(PDO::FETCH_ASSOC);
 
 </tbody> <!--Cierra el cuerpo de la tabla -->
 
-<?php endif; ?> <!--Cierre del if que valida que se haya seleccionado una categoría -->
-
-<?php endif; ?> <!--Cierre del if que valida que se hayan enviado datos a través de POST-->
-
 </table> <!-- Cierra la tabla-->
+</div>
+
+<?php } ?> <!--Cierre del else que valida que haya requerimentos -->
+
+<?php } ?> <!--Cierre del if que valida que se haya selecciomnado una categoría -->
+
+<?php } ?> <!--Cierre del if que valida que se hayan enviado datos a través de POST-->
+
+
 
 
 
