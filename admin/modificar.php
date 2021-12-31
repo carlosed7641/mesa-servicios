@@ -3,10 +3,10 @@ require '../includes/conexion.php';
 session_start();
 if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
     /** Si se intenta acceder a este sitio y no es admin,
-        no está logueadop o no hay ningun id de usuario se redirigirá al index**/
+        no está logueado o no hay ningun id de usuario se redirigirá al index**/
     header('location:../index.php');
 }
-    //Variable para guardar el ide del usuario que viene desde modificar-usuario 
+    //Variable para guardar el ie del usuario que viene desde modificar-usuario 
     $usr = $_GET['usr'];
 
 
@@ -17,6 +17,7 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
     $resultado->execute();
     $row = $resultado->fetch(PDO::FETCH_ASSOC);
 
+    //Id del tipo de usuario al cargar por primera vez
     $id_tipo_usuario_p = $row['id_tipo_usuario'];
 
     //Consulta para obtener los tipos a los que puede cambiar
@@ -30,11 +31,15 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
         header('location:../index.php');
     }
 
+    //Valida si fueron enviado datos a través de POST
     if (!empty($_POST)) {
 
+      /**Variable para guardar el nomnbre de usuario que
+      está registrado, para compararlo después si al editar 
+      es el mismo, no dé error **/
       $same_user = $row['usuario'];
 
-
+      //Variables para guardar los datos que vienen desde el Form
       $id = $_POST['actualizar'];
       $nombre_completo = $_POST['nombre_completo'];
       $direccion = $_POST['direccion'];
@@ -43,17 +48,19 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
       $password = $_POST['password'];
       $id_tipo_usuario = $_POST['id_tipo_usuario'];
 
-
+      //Consulta para obtener si ya hay un usuario con el nombre que se ingresó
       $sql = "SELECT count(*) as contar FROM usuarios WHERE usuario = '$usuario' ";
       $resultado_u = $pdo->prepare($sql);
       $resultado_u->execute();
       $fila = $resultado_u->fetch(PDO::FETCH_ASSOC);
 
+      /**Si se ingresa un usuario que ya existe y el nombre
+      ingresado es diferente al que ya estaba, marcará error**/
       if ($fila['contar'] >= 1 && $same_user != $usuario) {
    
       $error = "Ya existe alguien con ese nombre de usuario";
 
-      } else {
+      } else { //Sino, actualiza con los datos ingresados
 
       $sql = "UPDATE usuarios SET nombre_completo = '$nombre_completo', direccion = '$direccion', 
       telefono = '$telefono', usuario = '$usuario', password = '$password', 
@@ -62,6 +69,7 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
       $resultado_a = $pdo->prepare($sql);
       $resultado_a->execute();
 
+      //Redirige a la página anterior
       header('location:modificar-usuario.php?success=1');
 
       }
@@ -106,16 +114,19 @@ if ($_SESSION['tipo'] != 3 || !isset($_GET['usr'])) {
                   <!--Lista para los tipos de usuario-->
                   <select class="form-control" name="id_tipo_usuario" required="">
                      <?php 
+                        //Consulta para obtener el tipo de usuario del ususario cargado en primera posición
                         $sql = "SELECT * FROM tipo_usuario WHERE id_tipo_usuario = '$id_tipo_usuario_p'";
                         $resultado_b = $pdo->prepare($sql);
                         $resultado_b->execute();
                         $fila = $resultado_b->fetch(PDO::FETCH_ASSOC);
                       ?>
+                      <!-- Option con el tipo de usuario que está registrado -->
                      <option value="<?php echo $fila['id_tipo_usuario']; ?>"><?php echo $fila['tipo'];?></option>
                      <?php
                      //Recorre todas los tipos y los imprime en una lista desplegable
                      while ($fila=$resultado1->FETCH(PDO::FETCH_ASSOC)) :?>
-                  
+
+                      <!-- Option con los tipos a los quie se puede cambiar -->
                      <option value="<?php echo $fila['id_tipo_usuario']; ?>"> <?php echo $fila['tipo'];?></option>
                      
                      <?php endwhile; ?>

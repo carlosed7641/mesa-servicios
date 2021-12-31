@@ -26,25 +26,26 @@ if (!empty($_POST)) {
 	$password = $_POST['password'];
 	$id_tipo_usuario = $_POST['tipo_usuario'];
 
-
+	//Consulta para obtener si ya hay un usuario con el nombre que se ingresó
 	$sql = "SELECT count(*) as contar FROM usuarios WHERE usuario = '$usuario' ";
 	$resultado1 = $pdo->prepare($sql);
 	$resultado1->execute();
 	$fila = $resultado1->fetch(PDO::FETCH_ASSOC);
 
+	//Si hay algún usuario con el mismo nombre lanzará un mensaje de error
 	if ($fila['contar'] >= 1) {
  
  	$error = "Ya existe alguien con ese nombre de usuario";
 
-	} else {
+	} else { //Sino, agrega el usuario a la Base de Datos
 
-	//Insertar a la base de datos
 	$sql="INSERT INTO usuarios (nombre_completo, direccion, telefono, usuario, password, id_tipo_usuario)
 	VALUES ('".$nombre_completo."', '".$direccion."', '".$telefono."', '".$usuario."', 
 	'".$password."', '".$id_tipo_usuario."')";
 	$resultado = $pdo->prepare($sql);
 	$resultado->execute();
 
+	//Redirigé al index de admin para mostrar un mensaje
 	header("location:index.php?success=1");
 
 	}

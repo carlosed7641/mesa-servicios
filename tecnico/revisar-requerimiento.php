@@ -121,6 +121,7 @@ $usr=$resultado->fetch(PDO::FETCH_ASSOC);
 
            <script type="text/javascript">
                
+               //Función para quitar el required si presiona cancelar
                function noRequired () {
 
                     document.querySelector("textarea").removeAttribute("required");

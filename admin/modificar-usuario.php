@@ -3,6 +3,7 @@
 require '../includes/conexion.php';
 session_start();
 
+//Guarda la variable del id del usuario activo
 $id_admin = $_SESSION['id'];
 
 if ($_SESSION['tipo'] != 3) { 
@@ -58,13 +59,16 @@ echo "<center><h2 id='resultados'>Usuario correctamente actualizado</h2></center
 
 }
 
+//Valida que se hayan enviado datos a través de POST
 if(!empty($_POST)) {
 
+	//Si presionó buscar
 	if(isset($_POST['buscar'])) {
 
+		//Guarda la variable para hacer la consulta
 		$buscar = $_POST['buscar'];
 
-		//Consulta para obtener la cantidad de usuarios con esa información
+		//Consulta para obtener la cantidad de usuarios con esa información, excepto el usuario activo
 		$sql = "SELECT count(*) as contar FROM usuarios WHERE id_usuario != '$id_admin'
 		AND (nombre_completo LIKE '%$buscar%' OR id_usuario = '$buscar')";
 		$resultado = $pdo->prepare($sql);
@@ -80,6 +84,7 @@ if(!empty($_POST)) {
 
 		} else {
 
+			//Variable para asignar usuario plurar o singular, depende de la cantidad
 			$usuarios = "";
 
 			if ($fila['contar'] == 1) {
@@ -88,16 +93,19 @@ if(!empty($_POST)) {
 				$usuarios = "usuarios";
 			}
 
+		//Imprime la cantidad de usuarios que hay con esa información
 		echo "<center><h2 id='resultados'>Hay ".$fila['contar']." ".$usuarios." con esta información</h2></center><br>";
+		//Consulta para obtener los usuarios con esa información
 		$sql = "SELECT * FROM usuarios WHERE nombre_completo LIKE '%$buscar%' OR id_usuario = '$buscar' ";
 		$resultado = $pdo->prepare($sql);
 		$resultado->execute();
 
 		}
 
+	//Si presionó listar todos los usuarios
     } else if(isset($_POST['listar'])) {
 
-    	//Consulta para obtener la cantidad de usuarios
+    	//Consulta para obtener la cantidad de usuarios, excepto el usuario activo
 		$sql = "SELECT count(*) as contar FROM usuarios WHERE id_usuario != '$id_admin'";
 		$resultado = $pdo->prepare($sql);
 		$resultado->execute();
@@ -111,6 +119,7 @@ if(!empty($_POST)) {
 
     	} else {
 
+			//Variable para asignar usuario plurar o singular, depende de la cantidad
     		$usuarios = "";
 
 			if ($fila['contar'] == 1) {
@@ -119,35 +128,43 @@ if(!empty($_POST)) {
 				$usuarios = "usuarios";
 			}
 
+			//Imprime la cantidad de usuarios que hay
     		echo "<center><h2 id='resultados'>Hay ".$fila['contar']." ".$usuarios." registrados</h2></center><br>";
+
+    		//Consulta para obtener los usuarios
     		$sql = "SELECT * FROM usuarios WHERE id_usuario != '$id_admin'";
 			$resultado = $pdo->prepare($sql);
 			$resultado->execute();
     	}
 
+    //Si presiona eliminar
     } else if(isset($_POST['eliminar'])) {
-
+		
+		//Guarda la variable para hacer la consulta
     	$id = $_POST['eliminar'];
 
+    	//Consulta para saber si el usuario a eliminar tiene requerimientos registrados
     	$sql = "SELECT count(*) as contar FROM requerimientos WHERE id_usuario_solicitante = '$id' 
     	OR id_usuario_soporte = '$id' ";
 		$resultado = $pdo->prepare($sql);
     	$resultado->execute();
     	$fila = $resultado->fetch(PDO::FETCH_ASSOC);
 
-    	if ($fila['contar'] >= 1) {
+    	if ($fila['contar'] >= 1) { //Si hay resultados no dejará eliminar
 
     	echo "<center><h2 id='resultados'>No puedes eliminar un usuario que haya solicitado
     	o atendido un requerimiento </h2></center><br>";
     	include('../includes/footer.php');
     	die();
 
-    	} else {
+    	} else { //Sino, elimina al usuario
 
+    	//Consulta para eliminar al usuario
     	$sql = "DELETE FROM usuarios WHERE id_usuario = '$id'";
     	$resultado = $pdo->prepare($sql);
     	$resultado->execute();
 
+    	//Mensaje
     	echo "<center><h2 id='resultados'>Usuario correctamente eliminado</h2></center><br>";
     	include('../includes/footer.php');
     	die();
