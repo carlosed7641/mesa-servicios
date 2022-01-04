@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-12-2021 a las 01:51:05
+-- Tiempo de generación: 04-01-2022 a las 19:45:58
 -- Versión del servidor: 10.4.13-MariaDB
 -- Versión de PHP: 7.4.8
 
@@ -67,9 +67,8 @@ CREATE TABLE `requerimientos` (
 --
 
 INSERT INTO `requerimientos` (`codigo`, `estado`, `descripcion`, `ubicacion`, `detalle`, `fecha_creacion`, `fecha_atencion`, `fecha_fin`, `id_usuario_solicitante`, `id_usuario_soporte`, `id_categoria`, `id_tipo_servicio`) VALUES
-(1, 'Reportado', 'Se dañó el lavamanos en el baño de de recepción', 'Recepción', NULL, '22-11-2021 12:32:34 pm', NULL, NULL, 2, NULL, 1, 1),
-(2, 'Reportado', 'Necesito ayuda en mi puesto de trabajo hay un da?o en la parte del escritorio', 'Oficina central', NULL, '28-12-2021 03:59:19 pm', NULL, NULL, 2, NULL, 2, 8),
-(3, 'En proceso', 'Necesito aseo en el patio de mi oficina', 'Patio', NULL, '28-12-2021 04:03:54 pm', '28-12-2021 07:43:58 pm', NULL, 2, 1, 3, 10);
+(7, 'Cancelado', 'Se dañó el baño en mi oficina.', 'Oficina', 'Requerimiento cancelado', '31-12-2021 04:18:53 pm', 'Cancelado', 'Cancelado', 20, 1, 1, 1),
+(8, 'Atendido', 'Se dañó el archivador de mi oficina.', 'Oficina', 'El requerimiento fue atendido satisfactoriamente', '31-12-2021 04:22:43 pm', '31-12-2021 04:23:28 pm', '31-12-2021 04:23:51 pm', 2, 1, 2, 7);
 
 -- --------------------------------------------------------
 
@@ -79,7 +78,7 @@ INSERT INTO `requerimientos` (`codigo`, `estado`, `descripcion`, `ubicacion`, `d
 
 CREATE TABLE `tipo_servicio` (
   `id_tipo_servicio` int(11) NOT NULL,
-  `servicio` varchar(45) DEFAULT NULL,
+  `servicio` varchar(45) CHARACTER SET utf8 COLLATE utf8_spanish_ci DEFAULT NULL,
   `id_categoria` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -145,9 +144,10 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre_completo`, `direccion`, `telefono`
 (1, 'Carlos Ilias', 'Cr18 D 80 A-24', '3145568956', 'cilias', '12345', 1),
 (2, 'Carlos Castro', 'Calle 19#28A17', '3015569476', 'ccastro46', '12345', 2),
 (3, 'Andrés Vega', 'Calle 110 #43-331', '3047686905', 'avega15', '12345', 2),
-(4, 'Lionel Messi', 'París Place', '5679805687', 'lm10', '123456', 1),
 (5, 'Wilson Castro', 'Calle 19#28A18', '3008778568', 'wcastro11', '12345', 3),
-(7, 'Julian Castro', 'Calle 23#15-B', '3108790672', 'jcastro11', '54321', 2);
+(11, 'Juan Pérez', 'Calle 23#11-C', '3008679528', 'jperez5', '12345', 1),
+(19, 'Rubén Castro', 'Calle 33#27B-15', '3038760911', 'rcastro5', '12345', 3),
+(20, 'Luisa Ruíz', 'Calle 113 #22-33', '3145567420', 'lruiz9', '12345', 2);
 
 --
 -- Índices para tablas volcadas
@@ -187,6 +187,7 @@ ALTER TABLE `tipo_usuario`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `usuario` (`usuario`),
   ADD KEY `id_tipo_usuario_idx` (`id_tipo_usuario`);
 
 --
@@ -197,13 +198,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `requerimientos`
 --
 ALTER TABLE `requerimientos`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- Restricciones para tablas volcadas
