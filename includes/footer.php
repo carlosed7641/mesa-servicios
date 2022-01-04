@@ -3,7 +3,7 @@
             <div class="row">
                 <div class="col-lg-6 col-xs-12">
                     <div class="left-text-content">
-                        <p>Copyright &copy; 2021 Carlos Castro - Carlos Ilias. </p>
+                        <p>Copyright &copy; 2021 Carlos Castro</p>
                     </div>
                 </div>
                 <div class="col-lg-6 col-xs-12">
